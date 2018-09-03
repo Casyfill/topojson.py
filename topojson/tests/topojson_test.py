@@ -28,7 +28,7 @@ class TestTopojson(object):
     def test_convert_geojson_to_topojson(self, type_, props):
         from topojson.conversion import convert
 
-        path_to_file = path.join(test_dir, f"{type_}.geojson")
+        path_to_file = path.join(test_dir, "{tp}.geojson".format(tp=type_))
 
         with open(path_to_file, "r") as f:
             obj = json.load(f)
