@@ -1,9 +1,10 @@
-import json
 import pytest
 from os import path
 import requests as rq
 from .utils import validate_json
-from glob import glob
+import json
+
+# from glob import glob
 
 test_dir = path.join(path.dirname(__file__), "data")
 
@@ -23,11 +24,13 @@ objs = {
 
 @pytest.mark.usefixtures("tpscheme")
 class TestTopojson(object):
-    @pytest.mark.parametrize("type, props", objs.items())
-    def test_convert_geojson_to_topojson(self, type, props):
+    @pytest.mark.parametrize("type_, props", objs.items())
+    def test_convert_geojson_to_topojson(self, type_, props):
         from topojson.conversion import convert
 
-        with open(path.join(test_dir, f"{type}.geojson"), "r") as f:
+        path_to_file = path.join(test_dir, f"{type_}.geojson")
+
+        with open(path_to_file, "r") as f:
             obj = json.load(f)
 
         tj = convert(obj)
