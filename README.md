@@ -1,6 +1,11 @@
-# TOPOJSON.PY
+# TOPOJSON.PY [![Build Status](https://travis-ci.org/Casyfill/topojson.py.svg?branch=master)](https://travis-ci.org/Casyfill/topojson.py)
 
-Port of [topojson](https://github.com/mbostock/topojson) more of a translation then a port at this point, licensed under same BSD license as original, current usage:
+### Note: currently all updates are on [Casyfill's fork](https://github.com/Casyfill/topojson.py). We're working on updating this package. 
+For current status, go to the [project](https://github.com/Casyfill/topojson.py/projects/1).
+
+
+
+Translation of [topojson](https://github.com/mbostock/topojson), licensed under same BSD license as original, current usage:
 
 input can be a file-like object, a path to a file, or a dict, output can be a path or a file-like object, if omited a dict is returned
 
