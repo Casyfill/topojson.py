@@ -4,7 +4,7 @@ import re
 from setuptools import setup, find_packages
 
 
-def read(path, encoding='utf-8'):
+def read(path, encoding="utf-8"):
     path = os.path.join(os.path.dirname(__file__), path)
     with io.open(path, encoding=encoding) as fp:
         return fp.read()
@@ -12,11 +12,7 @@ def read(path, encoding='utf-8'):
 
 def get_install_requirements(path):
     content = read(path)
-    return [
-        req
-        for req in content.split("\n")
-        if req != '' and not req.startswith('#')
-    ]
+    return [req for req in content.split("\n") if req != "" and not req.startswith("#")]
 
 
 def version(path):
@@ -24,8 +20,9 @@ def version(path):
     See <https://packaging.python.org/en/latest/single_source_version.html>.
     """
     version_file = read(path)
-    version_match = re.search(r"""^__version__ = ['"]([^'"]*)['"]""",
-                              version_file, re.M)
+    version_match = re.search(
+        r"""^__version__ = ['"]([^'"]*)['"]""", version_file, re.M
+    )
     if version_match:
         return version_match.group(1)
     raise RuntimeError("Unable to find version string.")
@@ -41,10 +38,11 @@ NAME = "topojson"
 AUTHOR = "Calvin Metcalf"
 MAINTAINER = "Philipp Kats"
 MAINTAINER_EMAIL = "casyfill@gmail.com"
-URL = 'https://github.com/calvinmetcalf/topojson.py'
-LICENSE = 'BSD'
+URL = "https://github.com/calvinmetcalf/topojson.py"
+LICENSE = "BSD"
 PACKAGES = find_packages()
-VERSION = version('topojson/__init__.py')
+VERSION = version("topojson/__init__.py")
+INSTALL_REQUIRES = get_install_requirements("requirements.txt")
 DEV_REQUIRES = get_install_requirements("requirements_dev.txt")
 
 setup(
@@ -52,9 +50,8 @@ setup(
     version=VERSION,
     license=LICENSE,
     packages=PACKAGES,
-    extras_requires={
-        'dev': DEV_REQUIRES
-    },
+    install_requires=INSTALL_REQUIRES,
+    extras_require={"dev": DEV_REQUIRES},
     test_suite="tests",
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
