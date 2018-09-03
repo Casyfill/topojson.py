@@ -25,15 +25,19 @@ class BaseCoordinateSystem(object):
         return abs(area)
 
 
+def _calc_area(p1, p2):
+    return p1[1] * p2[0] - p1[0] * p2[1]
+
+
 class Cartesian(BaseCoordinateSystem):
     name = "cartesian"
 
     def ring_area(self, ring):
-        calc_area = lambda p1, p2: p1[1] * p2[0] - p1[0] * p2[1]
         # last and first
-        area = calc_area(ring[-1], ring[0])
+        area = _calc_area(ring[-1], ring[0])
+
         for i, p in enumerate(ring[1:]):  # skip first so p is current and
-            area += calc_area(p, ring[i])  # ring[i] is the previous
+            area += _calc_area(p, ring[i])  # ring[i] is the previous
         return area * 0.5
 
     def triangle_area(self, triangle):
@@ -75,9 +79,12 @@ class Spherical(BaseCoordinateSystem):
         for pp in ring[1:]:
             lambda_ = pp[0] * RADIANS
             phi = pp[1] * RADIANS / 2.0 + PI4
-            # Spherical excess E for a spherical triangle with vertices: south pole,
-            # previous point, current point.  Uses a formula derived from Cagnoli’s
-            # theorem.  See Todhunter, Spherical Trig. (1871), Sec. 103, Eq. (2).
+            # Spherical excess E for a spherical triangle with
+            # vertices: south pole, previous point, current point.
+            # Uses a formula derived from Cagnoli’s
+            # theorem.  See Todhunter, Spherical Trig. (1871),
+            #  Sec. 103, Eq. (2).
+
             dlambda = lambda_ - lambda0
             cosphi = cos(phi)
             sinphi = sin(phi)
@@ -95,9 +102,8 @@ class Spherical(BaseCoordinateSystem):
         return area + 4 * pi if area < 0 else area
 
     def triangle_area(self, triangle):
-        def distance(
-            a, b
-        ):  # why 2 implementations? I don't know, original has the same question in comments
+        def distance(a, b):  # why 2 implementations? I don't know,
+            # original has the same question in comments
             x0, y0, x1, y1 = [(n * RADIANS) for n in (a + b)]
             delta_lambda = x1 - x0
             return atan2(

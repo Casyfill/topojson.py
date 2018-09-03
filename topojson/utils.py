@@ -3,12 +3,9 @@ def point_compare(a, b):
         return a[0] - b[0] or a[1] - b[1]
 
 
-# def is_point(p):
-#    try:
-#        float(p[0]), float(p[1])
-#    except (TypeError, IndexError):
-#        return False
-is_point = lambda x: isinstance(x, list) and len(x) == 2
+def is_point(p):
+    """check if p ls a list of 2"""
+    return isinstance(p, (list, tuple)) and len(p) == 2
 
 
 class Strut(list):

@@ -5,8 +5,9 @@ from .stitchpoles import stitch
 from .coordinatesystems import systems
 from .bounds import bound
 from .line import Line
-from .clockwise import Clock
-from decimal import Decimal
+
+# from .clockwise import Clock
+# from decimal import Decimal
 from .simplify import simplify_object
 from .utils import is_infinit, E
 
@@ -26,7 +27,7 @@ def topology(
     simplify=False,
 ):
     ln = Line(quantization)
-    id_func = lambda x: x.get(id_key, None)
+
     if simplify:
         objects = simplify_object(objects, simplify)
     [x0, x1, y0, y1] = bound(objects)
@@ -81,34 +82,41 @@ def topology(
             point[0] = int(x)
             point[1] = int(y)
 
-    finde = findEmax(objects)
-    emax = finde.emax
+    # finde = findEmax(objects)
+
+    # emax = finde.emax
     # Clock(objects,system.ring_area)
+
     class find_coincidences(Types):
         def line(self, line):
             for point in line:
                 lines = ln.arcs.coincidence_lines(point)
-                if not line in lines:
+                if not (line in lines):
                     lines.append(line)
 
-    fcInst = find_coincidences(objects)
-    polygon = lambda poly: list(map(ln.line_closed, poly))
+    # fcInst = find_coincidences(objects)
+
+    def _get_poly(poly):
+        return list(map(ln.line_closed, poly))
+
     # Convert features to geometries, and stitch together arcs.
     class make_topo(Types):
         def Feature(self, feature):
             geometry = feature["geometry"]
-            if feature["geometry"] == None:
+            if feature["geometry"] is None:
                 geometry = {}
-            if "id" in feature:
-                geometry["id"] = feature["id"]
-            if "properties" in feature:
-                geometry["properties"] = feature["properties"]
+
+            for el in "id", "properties":
+                if el in feature:
+                    geometry[el] = feature[el]
+
             return self.geometry(geometry)
 
         def FeatureCollection(self, collection):
             collection["type"] = "GeometryCollection"
-            collection["geometries"] = list(map(self.Feature, collection["features"]))
-            del collection["features"]
+            geoms = [self.Feature(el) for el in collection["features"]]
+            collection["geometries"] = geoms
+            del collection["features"]  # do we need that?
             return collection
 
         def GeometryCollection(self, collection):
@@ -117,10 +125,12 @@ def topology(
             )
 
         def MultiPolygon(self, multiPolygon):
-            multiPolygon["arcs"] = list(map(polygon, multiPolygon["coordinates"]))
+            arcs = [_get_poly(el) for el in multiPolygon["coordinates"]]
+            multiPolygon["arcs"] = arcs
 
         def Polygon(self, polygon):
-            polygon["arcs"] = list(map(ln.line_closed, polygon["coordinates"]))
+            arcs = [ln.line_closed(el) for el in polygon["coordinates"]]
+            polygon["arcs"] = arcs
 
         def MultiLineString(self, multiLineString):
             multiLineString["arcs"] = list(
@@ -131,12 +141,12 @@ def topology(
             lineString["arcs"] = ln.line_open(lineString["coordinates"])
 
         def geometry(self, geometry):
-            if geometry == None:
+            if geometry is None:
                 geometry = {}
             else:
                 Types.geometry(self, geometry)
-            geometry["id"] = id_func(geometry)
-            if geometry["id"] == None:
+            geometry["id"] = geometry.get(id_key, None)
+            if geometry["id"] is None:
                 del geometry["id"]
             properties0 = geometry["properties"]
             if properties0:

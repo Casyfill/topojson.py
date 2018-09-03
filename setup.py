@@ -12,7 +12,9 @@ def read(path, encoding="utf-8"):
 
 def get_install_requirements(path):
     content = read(path)
-    return [req for req in content.split("\n") if req != "" and not req.startswith("#")]
+    return [
+        req for req in content.split("\n") if req != "" and not req.startswith("#")
+    ]  # noqa: E501
 
 
 def version(path):

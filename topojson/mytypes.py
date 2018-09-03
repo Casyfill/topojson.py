@@ -49,7 +49,7 @@ class Types:
         self.polygon(polygon["coordinates"])
 
     def obj(self, obj):
-        if obj == None:
+        if obj is None:
             self.outObj = None
         elif not ("type" in obj):
             self.outObj = {}
@@ -64,8 +64,9 @@ class Types:
         return self.outObj
 
     def geometry(self, geometry):
-        if not (geometry != None and geometry["type"] in GEOMETRY_TYPES):
+        if not all((isinstance(geometry, dict), geometry["type"] in GEOMETRY_TYPES)):
             return None
+
         elif geometry["type"] == "LineString":
             return self.LineString(geometry)
         elif geometry["type"] == "MultiLineString":

@@ -129,8 +129,9 @@ def simplify_object(obj, tolerance):
         def polygon(self, coordinates):
             return list(map(self.line, coordinates))
 
-        def GeometryCollection(self, collection):
-            if collection.has_key("geometries"):
+        def GeometryCollection(self, geometry, collection):
+            """WARNING: not sure what this supposed to do"""
+            if "geometries" in collection:
                 collection["geometries"] = list(
                     map(self, geometry, collection["geometries"])
                 )
