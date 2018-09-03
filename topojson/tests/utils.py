@@ -1,4 +1,3 @@
-from typing import Union
 import requests as rq
 from jsonschema.exceptions import ValidationError
 import jsonschema
@@ -6,7 +5,7 @@ import jsonschema
 # from urllib.parse import urlparse
 
 
-def validate_json(data, scheme: Union[dict, str, None] = None) -> None:
+def validate_json(data, scheme=None):
     """validate dict
 
     Args:
