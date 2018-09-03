@@ -23,12 +23,11 @@ objs = {
 
 @pytest.mark.usefixtures("tpscheme")
 class TestTopojson(object):
-
     @pytest.mark.parametrize("type, props", objs.items())
     def test_convert_geojson_to_topojson(self, type, props):
         from topojson.conversion import convert
 
-        with open(path.join(test_dir, f'{type}.geojson'), 'r') as f:
+        with open(path.join(test_dir, f"{type}.geojson"), "r") as f:
             obj = json.load(f)
 
         tj = convert(obj)
@@ -36,6 +35,6 @@ class TestTopojson(object):
         # check vs schema
         validate_json(tj, self.tpscheme)
 
-        assert tj["type"] == props['type']
-        assert len(tj["bbox"]) == props['bbox_length']
-        assert len(tj["objects"]["name"]["geometries"]) == props['geometries']
+        assert tj["type"] == props["type"]
+        assert len(tj["bbox"]) == props["bbox_length"]
+        assert len(tj["objects"]["name"]["geometries"]) == props["geometries"]

@@ -2,6 +2,7 @@ from typing import Union
 import requests as rq
 from jsonschema.exceptions import ValidationError
 import jsonschema
+
 # from urllib.parse import urlparse
 
 
