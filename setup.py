@@ -44,7 +44,7 @@ MAINTAINER_EMAIL = "casyfill@gmail.com"
 URL = 'https://github.com/calvinmetcalf/topojson.py'
 LICENSE = 'BSD'
 PACKAGES = find_packages()
-VERSION = version('pdvega/__init__.py')
+VERSION = version('topojson.py/__init__.py')
 DEV_REQUIRES = get_install_requirements("requirements_dev.txt")
 
 setup(
