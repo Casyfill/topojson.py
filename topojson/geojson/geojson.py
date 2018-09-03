@@ -89,26 +89,29 @@ class Transformer:
             return self.geometry_collection(geometry)
 
     def point(self, geometry):
-        geometry["coordinates"] = self.convert_point(geometry[coordinates])
+        coords = self.convert_point(geometry["coordinates"])
+        geometry["coordinates"] = coords
         return geometry
 
     def multi_point(self, geometry):
-        geometry["coordinates"] = list(map(self.convert_point, geometry[coordinates]))
+        coords = [self.convert_point(el) for el in geometry["coordinates"]]
+        geometry["coordinates"] = coords
         return geometry
 
     def line_string(self, geometry):
         geometry["coordinates"] = self.stitch_arcs(geometry["arcs"])
-        del geometry["arcs"]
+        # del geometry["arcs"]
         return geometry
 
     def multi_line_string_poly(self, geometry):
         geometry["coordinates"] = self.stich_multi_arcs(geometry["arcs"])
-        del geometry["arcs"]
+        # del geometry["arcs"]
         return geometry
 
     def multi_poly(self, geometry):
-        geometry["coordinates"] = list(map(self.stich_multi_arcs, geometry["arcs"]))
-        del geometry["arcs"]
+        coords = [self.stich_multi_arcs(el) for el in geometry["arcs"]]
+        geometry["coordinates"] = coords
+        # del geometry["arcs"]
         return geometry
 
     def geometry_collection(self, geometry):

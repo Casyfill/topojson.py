@@ -4,6 +4,7 @@ import requests as rq
 from .utils import validate_json
 import json
 
+url = "https://raw.githubusercontent.com/calvinmetcalf/topojson.py/v1.1.x/test_objects/schema/topojson.json"  # noqa: E501
 # from glob import glob
 
 test_dir = path.join(path.dirname(__file__), "data")
@@ -11,7 +12,6 @@ test_dir = path.join(path.dirname(__file__), "data")
 
 @pytest.fixture(scope="class")
 def tpscheme(request):
-    url = "https://raw.githubusercontent.com/calvinmetcalf/topojson.py/v1.1.x/test_objects/schema/topojson.json"
     request.cls.tpscheme = rq.get(url).json()
 
 
@@ -28,7 +28,8 @@ class TestTopojson(object):
     def test_convert_geojson_to_topojson(self, type_, props):
         from topojson.conversion import convert
 
-        path_to_file = path.join(test_dir, "{tp}.geojson".format(tp=type_))
+        filename = "{tp}.geojson".format(tp=type_)
+        path_to_file = path.join(test_dir, filename)
 
         with open(path_to_file, "r") as f:
             obj = json.load(f)

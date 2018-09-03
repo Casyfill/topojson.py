@@ -12,7 +12,9 @@ def read(path, encoding="utf-8"):
 
 def get_install_requirements(path):
     content = read(path)
-    return [req for req in content.split("\n") if req != "" and not req.startswith("#")]
+    return [
+        req for req in content.split("\n") if req != "" and not req.startswith("#")
+    ]  # noqa: E501
 
 
 def version(path):
@@ -59,4 +61,14 @@ setup(
     maintainer=MAINTAINER,
     maintainer_email=MAINTAINER_EMAIL,
     url=URL,
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Environment :: Console",
+        "Intended Audience :: Science/Research",
+        "License :: OSI Approved :: BSD License",
+        "Natural Language :: English",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.5",
+        "Programming Language :: Python :: 3.6",
+    ],
 )

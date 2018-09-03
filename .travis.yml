@@ -4,6 +4,7 @@ cache: pip
 
 python:
   - 2.7
+  - 3.5
   - 3.6
 
 env:
@@ -17,6 +18,6 @@ install:
   - pip install -e .[dev]
 
 script:
-  # - flake8 ./  turn off for now
+  - flake8 ./
   - mkdir -p $TEST_DIR
-  - cd $TEST_DIR && python -m pytest --pyargs  --doctest-modules topojson
+  - cd $TEST_DIR && python -m pytest  --cov=topojson  --pyargs  --doctest-modules topojson

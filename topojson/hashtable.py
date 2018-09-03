@@ -1,3 +1,4 @@
+"""I am pretty sure we don't need this"""
 from __future__ import division
 from math import ceil, log
 
@@ -6,7 +7,7 @@ def hasher(size):
     mask = int(size) - 1
 
     def retFunc(point):
-        if type(point) == type([]) and len(point) == 2:
+        if isinstance(point, list) and len(point) == 2:
             key = (int(point[0]) + 31 * int(point[1])) | 0
             return (~key if key < 0 else key) & mask
 

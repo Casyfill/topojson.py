@@ -42,7 +42,8 @@ class Line:
                 break
             p = t
             k += 1
-        # If no shared starting point is found for closed lines, rotate to minimum.
+        # If no shared starting point is found for closed lines,
+        # rotate to minimum.
         if k == n and isinstance(p, list) and len(p) > 1:
             point0 = points[0]
             i = 2
@@ -87,7 +88,7 @@ class Line:
         return self.line(points, True)
 
     def map_func(self, arc):
-        if len(arc) == 2 and type(arc[0]) == type(1):
+        if len(arc) == 2 and isinstance(arc[0], int):
             arc = [arc]
         i = 1
         n = len(arc)

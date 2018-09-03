@@ -15,6 +15,7 @@ class Clock:
         if "type" in geo:
             if geo["type"] == "Polygon" or geo["type"] == "MultiLineString":
                 geo["coordinates"] = self.clockwise_polygon(geo["coordinates"])
+
             elif geo["type"] == "MultiPolygon":
                 geo["coordinates"] = list(
                     map(lambda x: self.clockwise_polygon(x), geo["coordinates"])

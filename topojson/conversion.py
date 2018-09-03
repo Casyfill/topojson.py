@@ -15,7 +15,9 @@ def convert(geojson, topojson=None, object_name=False, *args, **kwargs):
         with open(geojson) as f:
             input_dict = load(f)
 
-        if not object_name and "type" in input_dict and geojson.endswith(".geojson"):
+        if all(
+            ((not object_name), ("type" in input_dict), (geojson.endswith(".geojson")))
+        ):
             input_dict = {geojson[:-8].split("/")[-1]: input_dict}
 
     elif isinstance(geojson, io.TextIOWrapper):
