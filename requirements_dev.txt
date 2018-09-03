@@ -1,4 +1,6 @@
 pytest
+black
+python-flake8
 flake8
 jsonschema
 requests
